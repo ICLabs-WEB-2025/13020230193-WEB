@@ -33,7 +33,8 @@
                 <div class="mb-3">
                     <label class="form-label fw-bold">Peran</label>
                     <select name="role" class="form-select @error('role') is-invalid @enderror" required>
-                        <option value="buyer" {{ old('role') == 'seller' ? 'selected' : '' }}>Pembeli</option>
+                        <option disabled selected>-- Pilih Peran --</option>
+                        <option value="buyer" {{ old('role') == 'buyer' ? 'selected' : '' }}>Pembeli</option>
                         <option value="seller" {{ old('role') == 'seller' ? 'selected' : '' }}>Penjual</option>
                     </select>
                     @error('role')
@@ -43,8 +44,7 @@
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Kata Sandi</label>
-                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                           required>
+                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

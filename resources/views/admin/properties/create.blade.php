@@ -9,9 +9,26 @@
             <h4 class="mb-0"><i class="bi bi-house-add me-2"></i>Tambah Rumah</h4>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.properties.store') }}" method="POST">
+            <form action="{{ route('admin.properties.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
+                {{-- Pemilik Rumah --}}
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Pemilik (Seller)</label>
+                    <select name="user_id" class="form-select @error('user_id') is-invalid @enderror" required>
+                        <option value="">-- Pilih Seller --</option>
+                        @foreach ($sellers as $seller)
+                            <option value="{{ $seller->id }}" {{ old('user_id') == $seller->id ? 'selected' : '' }}>
+                                {{ $seller->name }} ({{ $seller->email }})
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('user_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- Judul --}}
                 <div class="mb-3">
                     <label class="form-label fw-bold">Judul</label>
                     <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
@@ -21,6 +38,7 @@
                     @enderror
                 </div>
 
+                {{-- Harga --}}
                 <div class="mb-3">
                     <label class="form-label fw-bold">Harga (Rp)</label>
                     <input type="number" name="price" class="form-control @error('price') is-invalid @enderror"
@@ -30,6 +48,7 @@
                     @enderror
                 </div>
 
+                {{-- Deskripsi --}}
                 <div class="mb-3">
                     <label class="form-label fw-bold">Deskripsi</label>
                     <textarea name="description" class="form-control @error('description') is-invalid @enderror"
@@ -39,6 +58,7 @@
                     @enderror
                 </div>
 
+                {{-- Alamat --}}
                 <div class="mb-3">
                     <label class="form-label fw-bold">Alamat</label>
                     <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"
@@ -48,6 +68,16 @@
                     @enderror
                 </div>
 
+                {{-- Upload Gambar --}}
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Foto Rumah</label>
+                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
+                    @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                {{-- Status --}}
                 <div class="mb-3">
                     <label class="form-label fw-bold">Status</label>
                     <select name="status" class="form-select @error('status') is-invalid @enderror" required>

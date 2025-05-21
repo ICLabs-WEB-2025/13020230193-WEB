@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
-@section('title', 'Dasbor')
+@section('content')
 
 @section('content')
 <div class="container py-4">

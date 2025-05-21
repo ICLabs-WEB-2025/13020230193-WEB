@@ -8,21 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
     public function handle(Request $request, Closure $next)
     {
-        // Memeriksa apakah pengguna sudah login dan memiliki role 'admin'
-        if (Auth::guard('web')->check() && Auth::guard('web')->user()->role === 'admin') {
+        if (!Auth::check()) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        if (in_array(Auth::user()->role, ['admin', 'seller'])) {
             return $next($request);
         }
 
-        // Jika tidak, kembalikan ke halaman utama dengan pesan error
-        return redirect('/')->with('error', 'Akses ditolak. Hanya admin yang diizinkan.');
+        return redirect('/')->with('error', 'Akses ditolak. Hanya admin atau seller yang diizinkan.');
     }
 }

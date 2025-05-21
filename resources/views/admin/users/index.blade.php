@@ -50,7 +50,7 @@
                                     <button class="btn btn-danger btn-sm">
                                         <i class="bi bi-trash"></i>
                                     </button>
-                                </form>
+                                </form> 
                             </td>
                         </tr>
                     @empty
