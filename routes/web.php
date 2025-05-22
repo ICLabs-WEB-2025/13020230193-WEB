@@ -10,6 +10,8 @@ use App\Http\Controllers\User\KPRCalculatorController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 
+use App\Http\Middleware\AdminMiddleware;
+
 // 🔐 AUTENTIKASI PUBLIK (LOGIN SEMUA ROLE: ADMIN, BUYER, SELLER)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -22,11 +24,19 @@ Route::get('/register/seller', [RegisterController::class, 'showSellerForm'])->n
 Route::post('/register/seller', [RegisterController::class, 'registerSeller']);
 
 // 📦 RUTE ADMIN (DASHBOARD & RESOURCE)
-Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('properties', PropertyController::class)->names('properties');
-    Route::resource('users', UserController::class)->names('users')->except(['show']);
+Route::prefix('admin')
+    ->middleware(['auth', AdminMiddleware::class])
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('properties', PropertyController::class)->names('properties');
+        Route::resource('users', UserController::class)->names('users')->except(['show']);
 });
+
+Route::middleware(['auth', 'admin'])->get('/tes-admin', function () {
+    return 'Middleware admin berhasil.';
+});
+
 
 // 🌐 RUTE USER PUBLIK
 Route::name('user.')->group(function () {

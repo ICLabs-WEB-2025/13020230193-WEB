@@ -9,9 +9,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        
-        dd('DashboardController: index dipanggil', Auth::check(), Auth::user() ? Auth::user()->role : 'No user');
-
         return view('admin.dashboard.index');
     }
 }
