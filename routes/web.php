@@ -12,16 +12,19 @@ use App\Http\Controllers\Auth\RegisterController;
 
 use App\Http\Middleware\AdminMiddleware;
 
+
 // 🔐 AUTENTIKASI PUBLIK (LOGIN SEMUA ROLE: ADMIN, BUYER, SELLER)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 
 // 🧾 REGISTER BUYER & SELLER
 Route::get('/register/buyer', [RegisterController::class, 'showBuyerForm'])->name('register.buyer');
 Route::post('/register/buyer', [RegisterController::class, 'registerBuyer']);
 Route::get('/register/seller', [RegisterController::class, 'showSellerForm'])->name('register.seller');
 Route::post('/register/seller', [RegisterController::class, 'registerSeller']);
+
 
 // 📦 RUTE ADMIN (DASHBOARD & RESOURCE)
 Route::prefix('admin')
@@ -32,6 +35,7 @@ Route::prefix('admin')
         Route::resource('properties', PropertyController::class)->names('properties');
         Route::resource('users', UserController::class)->names('users')->except(['show']);
 });
+
 
 Route::middleware(['auth', 'admin'])->get('/tes-admin', function () {
     return 'Middleware admin berhasil.';
