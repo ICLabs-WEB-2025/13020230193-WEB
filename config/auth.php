@@ -41,6 +41,9 @@ return [
             'provider' => 'users',
         ],
     ],
+    'redirects' => [
+        'login' => 'auth.login', // Pastikan ini menunjuk ke auth.login
+    ],
 
     /*
     |--------------------------------------------------------------------------
